@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,21 +16,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
-import example.com.samsung.afinal.Adapter.JavaScriptInterface;
+//import example.com.samsung.afinal.Adapter.JavaScriptInterface;
+import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.Recipe;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.R;
+//ctrl + alt + L ==> 줄맞춤
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     BackPressCloseHandler backPress;
     private List<Recipe> List1;
-    private final Handler handler = new Handler();
-    JavaScriptInterface jsi;
-    WebView webView;
+//    private final Handler handler = new Handler();
+//    JavaScriptInterface jsi;
+//    WebView webView;
+    private String API_KEY = "_nn1V5xxRxq8MHOKUBN4NHzr18_4WsUq";
+    private String DATABASE = "whitewhale";
+    private String COLLECTION = "test";
+    
+/* mongoclient example
+    private MongoLabClient mongoLabClient;
+    JSONObject jsonObject, jsonObject2, jsonObject3;
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +53,54 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         backPress = new BackPressCloseHandler(this);
-        jsi = new JavaScriptInterface(this, webView, handler);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.addJavascriptInterface(new JavaScriptInterface(), "hh");
+//        jsi = new JavaScriptInterface(this, webView, handler);
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.addJavascriptInterface(new JavaScriptInterface(), "hh");
 
+
+/* mongolab client 사용 exmple
+        //Check Databases and Collections
+        mongoLabClient = new MongoLabClient(API_KEY);
+        mongoLabClient.getDatabaseName();
+
+        mongoLabClient = new MongoLabClient(API_KEY);
+        mongoLabClient.getCollectionName(DATABASE);
+
+        mongoLabClient = new MongoLabClient(API_KEY, DATABASE);
+        mongoLabClient.getCollectionName();
+
+        //Count Example
+        try {
+            jsonObject = new JSONObject();
+            jsonObject.put("three", 33);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.count();
+
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.count(jsonObject);
+
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.count(jsonObject.toString());
+
+        //Find Example
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.find();
+
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.find(jsonObject);
+
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.find(jsonObject.toString());
+
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.findOne(jsonObject);
+
+        mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+        mongoLabClient.findOne(jsonObject.toString());
+*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
