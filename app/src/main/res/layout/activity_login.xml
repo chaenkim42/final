@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="example.com.samsung.afinal.Activity.LoginActivity">
+
+
+    <TextView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="로그인"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        app:layout_constraintBottom_toTopOf="@+id/login_Id"
+        app:layout_constraintEnd_toEndOf="@+id/login_Id"
+        app:layout_constraintStart_toStartOf="@+id/login_idText" />
+
+    <TextView
+        android:id="@+id/login_idText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Id"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998" />
+
+    <EditText
+        android:id="@+id/login_Id"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="text"
+        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
+        app:layout_constraintBottom_toBottomOf="@+id/login_idText"
+        app:layout_constraintStart_toEndOf="@+id/login_idText"
+        app:layout_constraintTop_toTopOf="@+id/login_idText" />
+
+    <TextView
+        android:id="@+id/login_pwText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Pw"
+        app:layout_constraintEnd_toEndOf="@+id/login_idText"
+        app:layout_constraintTop_toBottomOf="@+id/login_idText" />
+
+    <EditText
+        android:id="@+id/login_pw"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
+        app:layout_constraintBottom_toBottomOf="@+id/login_pwText"
+        app:layout_constraintStart_toStartOf="@+id/login_Id"
+        app:layout_constraintTop_toTopOf="@+id/login_pwText" />
+
+    <Button
+        android:id="@+id/login_confirmBtn"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_weight="2"
+        android:onClick="loginBtnOnClick"
+        android:text="로그인"
+        app:layout_constraintEnd_toEndOf="@+id/login_pw"
+        app:layout_constraintStart_toStartOf="@+id/login_pwText"
+        app:layout_constraintTop_toBottomOf="@+id/login_pw" />
+
+    <TextView
+        android:id="@+id/login_toSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:onClick="signupBtnOnClick"
+        android:text="회원가입 하러가기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_confirmBtn"
+        app:layout_constraintVertical_bias="0.26999998" />
+
+
+
+</android.support.constraint.ConstraintLayout>
