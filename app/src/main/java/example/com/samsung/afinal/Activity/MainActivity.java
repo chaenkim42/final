@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
     private String API_KEY = "_nn1V5xxRxq8MHOKUBN4NHzr18_4WsUq";
     private String DATABASE = "whitewhale";
     private String COLLECTION = "test";
-    
+
 /* mongoclient example
     private MongoLabClient mongoLabClient;
     JSONObject jsonObject, jsonObject2, jsonObject3;
