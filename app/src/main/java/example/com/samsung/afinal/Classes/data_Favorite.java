@@ -14,6 +14,8 @@ public class data_Favorite {
         return this.text;
     }
 
+    public void setText(String newName){this.text = newName;}
+
     public int getImg(){
         return this.img;
     }

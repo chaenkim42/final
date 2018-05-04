@@ -53,8 +53,9 @@ public class FavoriteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 data.add(new data_Favorite(R.mipmap.ic_launcher, "~번째 데이터"));
                 mAdapter.setData(data);
+
                 mVerticalView.setAdapter(mAdapter);
-//                registerForContextMenu(data.last);
+
             }
         });
 
@@ -62,47 +63,17 @@ public class FavoriteActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.favorite_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId())
-        {
-            case R.id.makeFile:
-                data.add(new data_Favorite(R.mipmap.ic_launcher, "~번째 데이터"));
-                mAdapter.setData(data);
-                mVerticalView.setAdapter(mAdapter);
-            case R.id.deleteFile:
-                Toast.makeText(this,"delete", Toast.LENGTH_SHORT).show();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Foloder");
-        menu.add(0,1,0,"rename");
-        menu.add(0,2,0,"delete");
-    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId())
         {
             case 1:
+                Toast.makeText(this,"test1", Toast.LENGTH_LONG).show();
+
                 return true;
             case 2:
+                Toast.makeText(this, "test2", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
