@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.R;
@@ -12,16 +11,11 @@ import example.com.samsung.afinal.R;
 public class SignupActivity extends AppCompatActivity {
 
     BackPressCloseHandler backPress;
-    EditText inputId, inputPw, confirmPw, inputEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
-        inputId = findViewById(R.id.signup_Id);
-        inputPw = findViewById(R.id.signup_pw);
-        confirmPw = findViewById(R.id.signup_pwRetype);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event)
