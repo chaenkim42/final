@@ -1,9 +1,8 @@
 package example.com.samsung.afinal.Activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,12 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
+import android.widget.ScrollView;
 
 import java.util.List;
 
 //import example.com.samsung.afinal.Adapter.JavaScriptInterface;
 import example.com.samsung.afinal.Classes.Recipe;
+import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.R;
 
@@ -31,10 +31,13 @@ public class MainActivity extends AppCompatActivity
 //    JavaScriptInterface jsi;
 //    WebView webView;
 
+    ScrollView contentMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        contentMain = findViewById(R.id.container_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         backPress = new BackPressCloseHandler(this);
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -91,11 +95,22 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        FragmentManager fm;
+        FragmentTransaction fragmentTransaction;
 
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_favorite) {
-
+            contentMain.setVisibility(View.INVISIBLE);
+            FavoriteFragment firstFragment = new FavoriteFragment();
+            fm = getFragmentManager();
+            fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.add(R.id.fragmentContainer, firstFragment);
+            firstFragment.setArguments(getIntent().getExtras());
+//            getFragmentManager().beginTransaction()
+//                    .add(R.id.fragmentContainer,firstFragment).commit();
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_upload) {
 
         } else if (id == R.id.nav_setting) {

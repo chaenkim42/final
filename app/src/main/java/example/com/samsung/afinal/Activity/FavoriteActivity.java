@@ -59,10 +59,7 @@ public class FavoriteActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
-
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
