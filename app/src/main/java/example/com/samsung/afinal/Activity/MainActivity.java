@@ -3,6 +3,10 @@ package example.com.samsung.afinal.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,9 +18,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.CreateCollectionOptions;
+
+import org.bson.Document;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
+import java.util.Set;
 
 //import example.com.samsung.afinal.Adapter.JavaScriptInterface;
+import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.Recipe;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
@@ -27,9 +49,14 @@ public class MainActivity extends AppCompatActivity
 
     BackPressCloseHandler backPress;
     private List<Recipe> List1;
-//    private final Handler handler = new Handler();
-//    JavaScriptInterface jsi;
-//    WebView webView;
+
+    private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
+    private String DATABASE = "appdb";
+    private String COLLECTION = "test";
+    private MongoLabClient mongoLabClient;
+    JSONObject jsonObject,jsonObject2,jsonObject3;
+
+
 
     ScrollView contentMain;
     @Override
@@ -41,9 +68,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         backPress = new BackPressCloseHandler(this);
-//        jsi = new JavaScriptInterface(this, webView, handler);
-//        webView.getSettings().setJavaScriptEnabled(true);
-//        webView.addJavascriptInterface(new JavaScriptInterface(), "hh");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -55,7 +79,42 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        try {
+//            Block<Document> printBlock = new Block<Document>() {
+//                @Override
+//                public void apply(final Document document) {
+//                    Log.i("eee",document.toJson());
+//                }
+//            };
+
+            mongoLabClient = new MongoLabClient(API_KEY);
+            Log.i("eeee mongoLabClient",mongoLabClient.getDatabaseName());
+            mongoLabClient = new MongoLabClient(API_KEY);
+            Log.i("eeee mongoLabClient",mongoLabClient.getCollectionName(DATABASE));
+
+            jsonObject = new JSONObject();
+            jsonObject.put("one", "data01");
+            jsonObject.put("two", "jsonObject");
+            jsonObject2 = new JSONObject();
+            jsonObject2.put("three-one",99);
+            jsonObject2.put("three-two", "BasicDBObject");
+            jsonObject.put("three", jsonObject2);
+
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject);
+            jsonArray.put(jsonObject2);
+            mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION);
+            mongoLabClient.insert(jsonArray);
+
+
+        }catch(JSONException e){
+            Log.e("eeeee error", e.toString());
+        }catch(Exception e){
+            Log.e("eeeee error", e.toString());
+        }
     }
+
 
     @Override
     public void onBackPressed() {
