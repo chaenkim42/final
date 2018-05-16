@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        try {
+//        try {
 //            Block<Document> printBlock = new Block<Document>() {
 //                @Override
 //                public void apply(final Document document) {
@@ -88,31 +88,30 @@ public class MainActivity extends AppCompatActivity
 //                }
 //            };
 
-            mongoLabClient = new MongoLabClient(API_KEY);
-            Log.i("eeee mongoLabClient",mongoLabClient.getDatabaseName());
-            mongoLabClient = new MongoLabClient(API_KEY);
-            Log.i("eeee mongoLabClient",mongoLabClient.getCollectionName(DATABASE));
-
-            jsonObject = new JSONObject();
-            jsonObject.put("one", "data01");
-            jsonObject.put("two", "jsonObject");
-            jsonObject2 = new JSONObject();
-            jsonObject2.put("three-one",99);
-            jsonObject2.put("three-two", "BasicDBObject");
-            jsonObject.put("three", jsonObject2);
-
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put(jsonObject);
-            jsonArray.put(jsonObject2);
-            mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION);
-            mongoLabClient.insert(jsonArray);
-
-
-        }catch(JSONException e){
-            Log.e("eeeee error", e.toString());
-        }catch(Exception e){
-            Log.e("eeeee error", e.toString());
-        }
+//            mongoLabClient = new MongoLabClient(API_KEY);
+//            Log.i("eeee mongoLabClient",mongoLabClient.getDatabaseName());
+//            mongoLabClient = new MongoLabClient(API_KEY);
+//            Log.i("eeee mongoLabClient",mongoLabClient.getCollectionName(DATABASE));
+//
+//            jsonObject = new JSONObject();
+//            jsonObject.put("one", "data01");
+//            jsonObject.put("two", "jsonObject");
+//            jsonObject2 = new JSONObject();
+//            jsonObject2.put("three-one",99);
+//            jsonObject2.put("three-two", "BasicDBObject");
+//            jsonObject.put("three", jsonObject2);
+//
+//            JSONArray jsonArray = new JSONArray();
+//            jsonArray.put(jsonObject);
+//            jsonArray.put(jsonObject2);
+//            mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION);
+//            mongoLabClient.insert(jsonArray);
+//
+//        }catch(JSONException e){
+//            Log.e("eeeee error", e.toString());
+//        }catch(Exception e){
+//            Log.e("eeeee error", e.toString());
+//        }
     }
 
 
@@ -121,6 +120,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if(contentMain.getVisibility() == View.INVISIBLE){
+            super.onBackPressed();
+            contentMain.setVisibility(View.VISIBLE);
         } else {
             backPress.onBackPressed();
         }
