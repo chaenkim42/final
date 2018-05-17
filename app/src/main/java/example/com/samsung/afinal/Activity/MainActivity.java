@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity
     private String COLLECTION = "test";
     private MongoLabClient mongoLabClient;
     JSONObject jsonObject,jsonObject2,jsonObject3;
+    FavoriteFragment firstFragment;
+
 
 
 
@@ -160,10 +162,17 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction;
 
         if (id == R.id.nav_home) {
+            contentMain.setVisibility(View.VISIBLE);
+            fm = getFragmentManager();
+            fragmentTransaction = fm.beginTransaction();
+            if(firstFragment != null)
+                fragmentTransaction.remove(firstFragment);
+            fragmentTransaction.commit();
             // Handle the camera action
         } else if (id == R.id.nav_favorite) {
             contentMain.setVisibility(View.INVISIBLE);
-            FavoriteFragment firstFragment = new FavoriteFragment();
+
+            firstFragment = new FavoriteFragment();
             fm = getFragmentManager();
             fragmentTransaction = fm.beginTransaction();
             fragmentTransaction.add(R.id.fragmentContainer, firstFragment);
