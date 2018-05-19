@@ -2,10 +2,13 @@ package example.com.samsung.afinal.Activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity
     BackPressCloseHandler backPress;
     private List<Recipe> List1;
 
+
+    // Information to access to mLab
     private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
     private String DATABASE = "appdb";
     private String COLLECTION = "test";
@@ -63,6 +68,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.list,  null);
+//        ActionBar a = getSupportActionBar();
+//        a.setIcon(drawable);
 
         contentMain = findViewById(R.id.container_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
