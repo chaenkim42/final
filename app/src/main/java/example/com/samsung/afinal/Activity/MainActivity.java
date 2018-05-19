@@ -173,8 +173,9 @@ public class MainActivity extends AppCompatActivity
             contentMain.setVisibility(View.VISIBLE);
             fm = getFragmentManager();
             fragmentTransaction = fm.beginTransaction();
-            if(firstFragment != null)
+            if(firstFragment != null){
                 fragmentTransaction.remove(firstFragment);
+            }
             fragmentTransaction.commit();
             // Handle the camera action
         } else if (id == R.id.nav_favorite) {
