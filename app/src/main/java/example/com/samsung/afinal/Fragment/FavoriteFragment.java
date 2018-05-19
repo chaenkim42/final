@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import example.com.samsung.afinal.Adapter.Adapter_Favorite;
+import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.data_Favorite;
 import example.com.samsung.afinal.R;
 
@@ -29,6 +30,12 @@ public class FavoriteFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private ArrayList<data_Favorite> list = new ArrayList<>();
     private ImageButton button;
+
+    // MongoLabClient 사용을 위한 변수들
+    private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
+    private String DATABASE = "dbchtest";
+    private String COLLECTION = "favorites";
+    private MongoLabClient mongoLabClient;
 
     @Nullable
     @Override
@@ -58,6 +65,11 @@ public class FavoriteFragment extends Fragment {
         adpater = new Adapter_Favorite();
 
         try {
+//            mongoLabClient = new MongoLabClient(API_KEY);
+//            mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
+//            mongoLabClient.find();
+
+
             JSONArray objects = new JSONArray("[{\"name\":\"폴더1\",\"index\":\"0\"},{\"name\":\"좋아하는 메뉴\",\"index\":\"1\"}]");
             for(int i=0; i<objects.length(); i++){
                 JSONObject o = objects.getJSONObject(i);
@@ -92,7 +104,7 @@ public class FavoriteFragment extends Fragment {
 
                         // Text 값 받아서 로그 남기기
                         String inputValue = et.getText().toString();
-                        data_Favorite newData = new data_Favorite(R.mipmap.ic_launcher, inputValue);
+                        data_Favorite newData = new data_Favorite(R.mipmap.folder, inputValue);
                         list.add(newData);
                         adpater.setData(list);
                         recyclerView.setAdapter(adpater);
@@ -120,6 +132,13 @@ public class FavoriteFragment extends Fragment {
         return view;
 
     }
+
+    public void updateDB() {
+        mongoLabClient = new MongoLabClient(API_KEY);
+        
+    }
+
+
 }
 
 

@@ -15,12 +15,12 @@
         android:layout_marginEnd="8dp"
         android:text="로그인"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        app:layout_constraintBottom_toTopOf="@+id/login_Id"
-        app:layout_constraintEnd_toEndOf="@+id/login_Id"
-        app:layout_constraintStart_toStartOf="@+id/login_idText" />
+        app:layout_constraintBottom_toTopOf="@+id/login_id"
+        app:layout_constraintEnd_toEndOf="@+id/login_id"
+        app:layout_constraintStart_toStartOf="@+id/login_idLabel" />
 
     <TextView
-        android:id="@+id/login_idText"
+        android:id="@+id/login_idLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.32999998" />
 
     <EditText
-        android:id="@+id/login_Id"
+        android:id="@+id/login_id"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -44,18 +44,18 @@
         android:gravity="center"
         android:inputType="text"
         android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
-        app:layout_constraintBottom_toBottomOf="@+id/login_idText"
-        app:layout_constraintStart_toEndOf="@+id/login_idText"
-        app:layout_constraintTop_toTopOf="@+id/login_idText" />
+        app:layout_constraintBottom_toBottomOf="@+id/login_idLabel"
+        app:layout_constraintStart_toEndOf="@+id/login_idLabel"
+        app:layout_constraintTop_toTopOf="@+id/login_idLabel" />
 
     <TextView
-        android:id="@+id/login_pwText"
+        android:id="@+id/login_pwLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Pw"
-        app:layout_constraintEnd_toEndOf="@+id/login_idText"
-        app:layout_constraintTop_toBottomOf="@+id/login_idText" />
+        app:layout_constraintEnd_toEndOf="@+id/login_idLabel"
+        app:layout_constraintTop_toBottomOf="@+id/login_idLabel" />
 
     <EditText
         android:id="@+id/login_pw"
@@ -65,9 +65,9 @@
         android:gravity="center"
         android:inputType="textPassword"
         android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
-        app:layout_constraintBottom_toBottomOf="@+id/login_pwText"
-        app:layout_constraintStart_toStartOf="@+id/login_Id"
-        app:layout_constraintTop_toTopOf="@+id/login_pwText" />
+        app:layout_constraintBottom_toBottomOf="@+id/login_pwLabel"
+        app:layout_constraintStart_toStartOf="@+id/login_id"
+        app:layout_constraintTop_toTopOf="@+id/login_pwLabel" />
 
     <Button
         android:id="@+id/login_confirmBtn"
@@ -78,7 +78,7 @@
         android:onClick="loginBtnOnClick"
         android:text="로그인"
         app:layout_constraintEnd_toEndOf="@+id/login_pw"
-        app:layout_constraintStart_toStartOf="@+id/login_pwText"
+        app:layout_constraintStart_toStartOf="@+id/login_pwLabel"
         app:layout_constraintTop_toBottomOf="@+id/login_pw" />
 
     <TextView

@@ -6,24 +6,26 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:background="#eaeaea"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        android:background="@color/WHITE">
 
         <ImageView
             android:id="@+id/imgIcon"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/folder"/>
+            android:layout_height="match_parent"
+            android:src="@mipmap/folder" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/imgIcon"
-            android:text="~번재 데이터"/>
+            android:text="~번재 데이터"
+            android:textSize="10pt" />
 
 
     </RelativeLayout>

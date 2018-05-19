@@ -3,10 +3,13 @@ package example.com.samsung.afinal.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -44,6 +47,7 @@ import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.Recipe;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.MainViewFragment;
+import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
 import example.com.samsung.afinal.Fragment.SettingFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.R;
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity
     BackPressCloseHandler backPress;
     private List<Recipe> List1;
 
+
+    // Information to access to mLab
     private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
     private String DATABASE = "appdb";
     private String COLLECTION = "test";
@@ -63,6 +69,7 @@ public class MainActivity extends AppCompatActivity
     FavoriteFragment firstFragment;
     SettingFragment settingFragment;
     MainViewFragment mainViewFragment;
+    PersonalInfoFragment personalInfoFragment;
 
     FrameLayout container;
     ScrollView contentMain;
@@ -70,6 +77,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.list,  null);
+//        ActionBar a = getSupportActionBar();
+//        a.setIcon(drawable);
 
         //FrameLayout으로써 여러 프레그먼트들을 담을 그릇입니다.
         //[애초에 의도했던 Framelayout에서 Visible과 invisible로 제어는 의미 없어졌습니다.]
@@ -179,6 +189,7 @@ public class MainActivity extends AppCompatActivity
         //replace로 각 프레그먼트 전환!!!
         firstFragment = new FavoriteFragment();
         settingFragment = new SettingFragment();
+        personalInfoFragment = new PersonalInfoFragment();
 
         FragmentTransaction fragmentTransaction;
         fragmentTransaction = getFragmentManager().beginTransaction();
@@ -208,6 +219,10 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.nav_share) {
+            fragmentTransaction.replace(R.id.contents_view, personalInfoFragment);
+            personalInfoFragment.setArguments(getIntent().getExtras());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         }
 
