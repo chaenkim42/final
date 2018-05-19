@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +35,7 @@ public class FavoriteFragment extends Fragment {
     private Adapter_Favorite adpater;
     private LinearLayoutManager layoutManager;
     private ArrayList<data_Favorite> list = new ArrayList<>();
-    private ImageButton button;
+    private ImageButton imageButton;
 
 
 
@@ -62,7 +64,7 @@ public class FavoriteFragment extends Fragment {
         //이전에 프레그먼트생성에서는 return inflater.inflate.....이렇게 진행했지만
         //여기에서는 하나의 view로써 일단 저장해 둡니다.(recyclerview의 id를 가져오기 위해서)
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        button = (ImageButton) view.findViewById(R.id.plusButton);
+        imageButton = view.findViewById(R.id.plusButton);
 
 
 //        RelativeLayout fragmentContainer;
@@ -100,7 +102,7 @@ public class FavoriteFragment extends Fragment {
         adpater.setData(list);
         recyclerView.setAdapter(adpater);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
@@ -120,13 +122,16 @@ public class FavoriteFragment extends Fragment {
 
                         // Text 값 받아서 로그 남기기
                         String inputValue = et.getText().toString();
-                        data_Favorite newData = new data_Favorite(R.mipmap.folder, inputValue);
-                        list.add(newData);
-                        adpater.setData(list);
-                        recyclerView.setAdapter(adpater);
-
-                        // Dialog 닫기
-                        dialog.dismiss();
+                        if(!inputValue.isEmpty()) {
+                            data_Favorite newData = new data_Favorite(R.mipmap.folder, inputValue);
+                            list.add(newData);
+                            adpater.setData(list);
+                            recyclerView.setAdapter(adpater);
+                            // Dialog 닫기
+                            dialog.dismiss();
+                        }else{
+                            Toast.makeText(getContext(), "폴더명을 입력하세요.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
