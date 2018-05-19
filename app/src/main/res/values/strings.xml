@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name"> Cooking App </string>
     <string name="signup_idTV">Id</string>
-    <string name="title_activity_main"> </string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -14,4 +13,7 @@
     <string name="nav_share">Share</string>
 
     <string name="welcoming">Welcome to the app</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

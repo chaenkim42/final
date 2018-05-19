@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <RingtonePreference
+        android:key="ringtone"
+        android:showDefault="true"
+        android:showSilent="true"
+        android:summary="벨소리를 선택하시오"
+        android:title="벨소리 선택" />
     <CheckBoxPreference
         android:key="check"
         android:title="진동여부"
         android:defaultValue="false"
         android:summary="체크하면 진동설정"/>
-    <RingtonePreference
-        android:key="ringtone"
-        android:title="벨소리 선택"
-        android:showDefault="true"
-        android:showSilent="true"
-        android:summary="벨소리를 선택하시오"/>
     <EditTextPreference
-        android:key="edit"
-        android:title="음량 선택"
         android:defaultValue="20"
-        android:summary="음량을 선택하시오"/>
+        android:key="edit"
+        android:summary="음량을 선택하시오"
+        android:title="음량 선택" />
+
 </PreferenceScreen>

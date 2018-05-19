@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,12 +26,17 @@ import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.data_Favorite;
 import example.com.samsung.afinal.R;
 
+import static example.com.samsung.afinal.Activity.MainActivity.fragmentContainer;
+
 public class FavoriteFragment extends Fragment {
     private RecyclerView recyclerView;
     private Adapter_Favorite adpater;
     private LinearLayoutManager layoutManager;
     private ArrayList<data_Favorite> list = new ArrayList<>();
     private ImageButton button;
+
+
+
 
     // MongoLabClient 사용을 위한 변수들
     private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
@@ -40,6 +47,9 @@ public class FavoriteFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
+
+
         //<핵심 원리>
         //어뎁터 안에다가 이전에 만들어둔 데이터틀 을 담고있는 배열을 넣고
         //그 어뎁터를 recyclerview에 넣습니다. 이때, recyclerview는 어뎁터를 통해서 가져온
@@ -54,6 +64,11 @@ public class FavoriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         button = (ImageButton) view.findViewById(R.id.plusButton);
 
+
+//        RelativeLayout fragmentContainer;
+//        fragmentContainer = getView().findViewById(R.id.fragment_container);
+        fragmentContainer.setVisibility(View.VISIBLE);
+
         //Step2 : recyclerview에 layout정하기
         //이제 recyclerview에서 데이터들을 어떻게 배치할지 layout을 정하는 부분으로
         //LinearLayout을 동적으로 코드상으로 불러온뒤에
@@ -64,26 +79,27 @@ public class FavoriteFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adpater = new Adapter_Favorite();
 
-        try {
+        if(list.isEmpty()) {
+            try {
 //            mongoLabClient = new MongoLabClient(API_KEY);
 //            mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
 //            mongoLabClient.find();
+                JSONArray objects = new JSONArray("[{\"name\":\"폴더1\",\"index\":\"0\"},{\"name\":\"좋아하는 메뉴\",\"index\":\"1\"}]");
+                for (int i = 0; i < objects.length(); i++) {
+                    JSONObject o = objects.getJSONObject(i);
+                    String name = o.getString("name");
 
-
-            JSONArray objects = new JSONArray("[{\"name\":\"폴더1\",\"index\":\"0\"},{\"name\":\"좋아하는 메뉴\",\"index\":\"1\"}]");
-            for(int i=0; i<objects.length(); i++){
-                JSONObject o = objects.getJSONObject(i);
-                String name = o.getString("name");
-
-                //Step3
-                //list array를 담은 adapter를 recyclerview에 넣기
-                list.add(new data_Favorite(R.mipmap.ic_launcher, name));
-                adpater.setData(list);
-                recyclerView.setAdapter(adpater);
+                    //Step3
+                    //list array를 담은 adapter를 recyclerview에 넣기
+                    list.add(new data_Favorite(R.mipmap.folder, name));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+        adpater.setData(list);
+        recyclerView.setAdapter(adpater);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

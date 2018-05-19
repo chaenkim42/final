@@ -9,12 +9,12 @@
     tools:showIn="@layout/app_bar_main">
 
     <FrameLayout
-        android:id="@+id/contents_view"
+        android:id="@+id/main_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
-            android:id="@+id/container_main"
+            android:id="@+id/main_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout_editor_absoluteX="0dp"
@@ -155,6 +155,14 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
+
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
