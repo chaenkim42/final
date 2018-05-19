@@ -3,6 +3,7 @@ package example.com.samsung.afinal.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -106,11 +107,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-        // 상단 툴바 메뉴
-        // getMenuInflater().inflate(R.menu.main, menu);
-
+        super.onCreateOptionsMenu(menu);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // 메뉴 안보이게 해서 없애는 코드
+        toolbar.getMenu().clear();
         return true;
     }
 

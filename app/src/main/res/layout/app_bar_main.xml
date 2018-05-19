@@ -63,6 +63,13 @@
                     app:layout_constraintVertical_bias="0.0" />
             </android.support.constraint.ConstraintLayout>
 
+            <ImageButton
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="@android:color/white"
+                app:srcCompat="@mipmap/ic_search" />
+
         </FrameLayout>
 
     </android.support.design.widget.AppBarLayout>
