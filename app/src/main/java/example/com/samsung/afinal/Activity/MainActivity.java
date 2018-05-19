@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
+    private TextView mypageTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
 //        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.list,  null);
 //        ActionBar a = getSupportActionBar();
 //        a.setIcon(drawable);
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity
         fragmentManager = getFragmentManager();
 
         fragmentContainer = findViewById(R.id.fragment_container);
+
 
     }
 
@@ -156,14 +160,13 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_setting) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_mypage) {
             // begin new transaction
-            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
 
             mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
-
         }else {
             drawer.closeDrawer(GravityCompat.START);
             return false;
