@@ -1,22 +1,17 @@
 package example.com.samsung.afinal.Fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,13 +40,27 @@ public class FavoriteFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_favorite, container, false);
-        button = (ImageButton) view.findViewById(R.id.plusButton);
-        recyclerView = view.findViewById(R.id.favoriteList);
+        //<핵심 원리>
+        //어뎁터 안에다가 이전에 만들어둔 데이터틀 을 담고있는 배열을 넣고
+        //그 어뎁터를 recyclerview에 넣습니다. 이때, recyclerview는 어뎁터를 통해서 가져온
+        //list array를 어떠한 layout형태로 배열할지 layout설정을 해줘야 합니다.
 
+        //즉, 특정 layout을 recyclerview에 넣어준 뒤에 event(버튼 같은)가 발생할 때마다 갱신 시킨 list를
+        //어뎁터에 넣어주고 그 어뎁터를 recyclerview에 넣어줍니다.
+
+        //Step1 : recyclerview의 id를 가져오기
+        //이전에 프레그먼트생성에서는 return inflater.inflate.....이렇게 진행했지만
+        //여기에서는 하나의 view로써 일단 저장해 둡니다.(recyclerview의 id를 가져오기 위해서)
+        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
+        button = (ImageButton) view.findViewById(R.id.plusButton);
+
+        //Step2 : recyclerview에 layout정하기
+        //이제 recyclerview에서 데이터들을 어떻게 배치할지 layout을 정하는 부분으로
+        //LinearLayout을 동적으로 코드상으로 불러온뒤에
+        recyclerView = view.findViewById(R.id.favoriteList);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
+        //recylerview에 만든 LinearLayout을 넣습니다.
         recyclerView.setLayoutManager(layoutManager);
         adpater = new Adapter_Favorite();
 
@@ -66,7 +75,9 @@ public class FavoriteFragment extends Fragment {
                 JSONObject o = objects.getJSONObject(i);
                 String name = o.getString("name");
 
-                list.add(new data_Favorite(R.mipmap.folder, name));
+                //Step3
+                //list array를 담은 adapter를 recyclerview에 넣기
+                list.add(new data_Favorite(R.mipmap.ic_launcher, name));
                 adpater.setData(list);
                 recyclerView.setAdapter(adpater);
             }

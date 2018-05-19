@@ -1,5 +1,6 @@
 package example.com.samsung.afinal.Activity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.mongodb.BasicDBObject;
@@ -44,6 +46,9 @@ import java.util.Set;
 import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.Recipe;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
+import example.com.samsung.afinal.Fragment.MainViewFragment;
+import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
+import example.com.samsung.afinal.Fragment.SettingFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.R;
 
@@ -60,11 +65,13 @@ public class MainActivity extends AppCompatActivity
     private String COLLECTION = "test";
     private MongoLabClient mongoLabClient;
     JSONObject jsonObject,jsonObject2,jsonObject3;
+
     FavoriteFragment firstFragment;
+    SettingFragment settingFragment;
+    MainViewFragment mainViewFragment;
+    PersonalInfoFragment personalInfoFragment;
 
-
-
-
+    FrameLayout container;
     ScrollView contentMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +81,22 @@ public class MainActivity extends AppCompatActivity
 //        ActionBar a = getSupportActionBar();
 //        a.setIcon(drawable);
 
+        //FrameLayout으로써 여러 프레그먼트들을 담을 그릇입니다.
+        //[애초에 의도했던 Framelayout에서 Visible과 invisible로 제어는 의미 없어졌습니다.]
+        //[fragment들 끼리 replace로 전환가능하기 때문입니다.]
+        container = findViewById(R.id.contents_view);
         contentMain = findViewById(R.id.container_main);
+
+        //fragment 초기화부분과 첫 mainViewFragment를 처음부터 FrameLayout에 담을 수 있도록 해주었습니다.
+        mainViewFragment = new MainViewFragment();
+        contentMain.setVisibility(View.INVISIBLE);  //이 부분 코드 읽게 되면 톡 부탁드립니다.
+        getFragmentManager().beginTransaction().add(R.id.contents_view, mainViewFragment).commit();
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         backPress = new BackPressCloseHandler(this);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -130,9 +148,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(contentMain.getVisibility() == View.INVISIBLE){
+        } else if(contentMain.getVisibility() != View.INVISIBLE){
             super.onBackPressed();
-            contentMain.setVisibility(View.VISIBLE);
+//            contentMain.setVisibility(View.VISIBLE);
         } else {
             backPress.onBackPressed();
         }
@@ -166,35 +184,45 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fm;
+
+        //처음부터 여러 프레그먼트들을 인스턴스화 시킨 뒤에 (main 포함)
+        //replace로 각 프레그먼트 전환!!!
+        firstFragment = new FavoriteFragment();
+        settingFragment = new SettingFragment();
+        personalInfoFragment = new PersonalInfoFragment();
+
         FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getFragmentManager().beginTransaction();
 
         if (id == R.id.nav_home) {
-            contentMain.setVisibility(View.VISIBLE);
-            fm = getFragmentManager();
-            fragmentTransaction = fm.beginTransaction();
-            if(firstFragment != null){
-                fragmentTransaction.remove(firstFragment);
-            }
-            fragmentTransaction.commit();
-            // Handle the camera action
-        } else if (id == R.id.nav_favorite) {
-            contentMain.setVisibility(View.INVISIBLE);
 
-            firstFragment = new FavoriteFragment();
-            fm = getFragmentManager();
-            fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.add(R.id.fragmentContainer, firstFragment);
-            firstFragment.setArguments(getIntent().getExtras());
-//            getFragmentManager().beginTransaction()
-//                    .add(R.id.fragmentContainer,firstFragment).commit();
+            fragmentTransaction.replace(R.id.contents_view, mainViewFragment);
+//            mainViewFragment.setArguments(getIntent().getExtras());
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+
+            // Handle the camera action
+        } else if (id == R.id.nav_favorite) {
+
+            fragmentTransaction.replace(R.id.contents_view, firstFragment);
+            firstFragment.setArguments(getIntent().getExtras());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_upload) {
 
         } else if (id == R.id.nav_setting) {
 
+            fragmentTransaction.replace(R.id.contents_view, settingFragment);
+            settingFragment.setArguments(getIntent().getExtras());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_share) {
+            fragmentTransaction.replace(R.id.contents_view, personalInfoFragment);
+            personalInfoFragment.setArguments(getIntent().getExtras());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         }
 
