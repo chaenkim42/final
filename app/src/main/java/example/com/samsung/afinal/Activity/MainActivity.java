@@ -29,8 +29,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import example.com.samsung.afinal.Adapter.Adapter_Main;
+import example.com.samsung.afinal.Adapter.ContentsViewPagerAdapter;
 import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.data_Main;
+import example.com.samsung.afinal.Fragment.ContentsFragment;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
@@ -65,13 +67,11 @@ public class MainActivity extends AppCompatActivity
     public Adapter_Main adapter_main;
     public RecyclerView contentsContainer;
 
+    //contents ViewPager
+    public int images[];
     public ViewPager viewPager;
-    public OnItemClickListener onItemClickListener= new OnItemClickListener() {
-        @Override
-        public void onItemClick() {
+    ContentsViewPagerAdapter contentsViewPagerAdapter;
 
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,31 @@ public class MainActivity extends AppCompatActivity
 
         fragmentContainer = findViewById(R.id.fragment_container);
 
+        //==================================================================================================
+        //ViewPager 즉 하나의 컨텐츠를 클릭했을때를 의미합니다. 그럴때의 작업을 구현한 부분입니다.
+        images = new int[]{R.drawable.food_cream_pasta, R.drawable.food_kimchi, R.drawable.food_salad};
+
+        contentsViewPagerAdapter = new ContentsViewPagerAdapter(fragmentManager);
+        viewPager = findViewById(R.id.contentsPages);
+        OnItemClickListener onItemClickListener = new OnItemClickListener() {
+            @Override
+            public void onItemClick() {
+                //뷰페이저 실행 부분
+
+                contentsViewPagerAdapter.setData(images);
+                viewPager.setAdapter(contentsViewPagerAdapter);
+//            fragmentTransaction = fragmentManager.beginTransaction();
+//            ContentsFragment contentsFragment = new ContentsFragment();
+//
+//
+//            fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, contentsFragment).commit();
+
+                contentsContainer.setVisibility(View.INVISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+                fragmentContainer.setVisibility(View.INVISIBLE);
+            }
+        };
+        //==================================================================================================
 
         //main content 부분
         items = new ArrayList<>();
@@ -119,10 +144,14 @@ public class MainActivity extends AppCompatActivity
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         contentsContainer = findViewById(R.id.contents_container);
         contentsContainer.setLayoutManager(linearLayoutManager);
-
         adapter_main = new Adapter_Main();
+        adapter_main.setListener(onItemClickListener);
         adapter_main.setData(items);
         contentsContainer.setAdapter(adapter_main);
+        //==================================================================================================
+
+
+
 
     }
 
@@ -130,16 +159,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if(viewPager.getVisibility() == View.VISIBLE)
+        {
+            viewPager.setVisibility(View.INVISIBLE);
+            contentsContainer.setVisibility(View.VISIBLE);
+        }
+        else if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(getFragmentManager().getBackStackEntryCount() > 1){
             getFragmentManager().popBackStack();
         }else if(getFragmentManager().getBackStackEntryCount() == 1){
             getFragmentManager().popBackStack();
-            mainScrollView.setVisibility(View.VISIBLE);
+            contentsContainer.setVisibility(View.VISIBLE);
+//            mainScrollView.setVisibility(View.VISIBLE);
         } else {
             backPress.onBackPressed();
         }
+
     }
 
     @Override
@@ -183,6 +219,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             contentsContainer.setVisibility(View.VISIBLE);
+            viewPager.setVisibility(View.INVISIBLE);
 //            mainScrollView.setVisibility(View.VISIBLE);
             fragmentContainer.setVisibility(View.GONE);
 
@@ -192,6 +229,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new FavoriteFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
+            viewPager.setVisibility(View.INVISIBLE);
 //            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
 
@@ -205,6 +243,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
+            viewPager.setVisibility(View.INVISIBLE);
 //            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
         }else {
