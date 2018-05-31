@@ -15,7 +15,7 @@ public class ContentsViewPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
-    public void setData(int images[]){this.images = images;}
+    public void setData(int[] images){this.images = images;}
 
     @Override
     public Fragment getItem(int position) {

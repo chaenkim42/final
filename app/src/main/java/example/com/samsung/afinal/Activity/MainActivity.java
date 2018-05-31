@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView contentsContainer;
 
     //contents ViewPager
-    public int images[];
+    int position;
+    public int images[][];
     public ViewPager viewPager;
     ContentsViewPagerAdapter contentsViewPagerAdapter;
 
@@ -111,23 +112,21 @@ public class MainActivity extends AppCompatActivity
 
         //==================================================================================================
         //ViewPager 즉 하나의 컨텐츠를 클릭했을때를 의미합니다. 그럴때의 작업을 구현한 부분입니다.
-        images = new int[]{R.drawable.food_cream_pasta, R.drawable.food_kimchi, R.drawable.food_salad};
+        images = new int[][]{{R.drawable.food_cream_pasta, R.drawable.food_kimchi, R.drawable.food_salad},
+                                {R.drawable.food_tomato_pasta, R.drawable.food_tomato_pasta, R.drawable.food_potato},
+                                {R.drawable.app_icon, R.drawable.food_potato, R.drawable.food_salad}};
 
         contentsViewPagerAdapter = new ContentsViewPagerAdapter(fragmentManager);
         viewPager = findViewById(R.id.contentsPages);
         OnItemClickListener onItemClickListener = new OnItemClickListener() {
             @Override
-            public void onItemClick() {
+            public void onItemClick(int position) {
                 //뷰페이저 실행 부분
 
-                contentsViewPagerAdapter.setData(images);
-                viewPager.setAdapter(contentsViewPagerAdapter);
-//            fragmentTransaction = fragmentManager.beginTransaction();
-//            ContentsFragment contentsFragment = new ContentsFragment();
-//
-//
-//            fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, contentsFragment).commit();
 
+                contentsViewPagerAdapter.setData(images[position]);
+                viewPager.setAdapter(contentsViewPagerAdapter);
+                
                 contentsContainer.setVisibility(View.INVISIBLE);
                 viewPager.setVisibility(View.VISIBLE);
                 fragmentContainer.setVisibility(View.INVISIBLE);

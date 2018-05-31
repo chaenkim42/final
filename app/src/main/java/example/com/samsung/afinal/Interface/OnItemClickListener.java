@@ -1,5 +1,5 @@
 package example.com.samsung.afinal.Interface;
 
 public interface OnItemClickListener {
-    void onItemClick();
+    void onItemClick(int position);
 }

@@ -1,5 +1,6 @@
 package example.com.samsung.afinal.Adapter;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,10 @@ public class Adapter_Main extends RecyclerView.Adapter<ViewHolder_Main>{
     ArrayList<data_Main> items;
     OnItemClickListener listener;
 
+
     public void setData(ArrayList<data_Main> items){this.items = items;}
     public void setListener(OnItemClickListener listener){this.listener = listener;}
+
 
     @Override
     public ViewHolder_Main onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,13 +31,14 @@ public class Adapter_Main extends RecyclerView.Adapter<ViewHolder_Main>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder_Main holder, int position) {
+    public void onBindViewHolder(ViewHolder_Main holder, final int position) {
+
 
         holder.bindData(items.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClick();
+                listener.onItemClick(position);
             }
         });
     }
