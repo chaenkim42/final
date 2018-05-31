@@ -3,6 +3,7 @@ package example.com.samsung.afinal.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuInflater;
@@ -33,6 +34,7 @@ import example.com.samsung.afinal.Classes.data_Main;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
+import example.com.samsung.afinal.Interface.OnItemClickListener;
 import example.com.samsung.afinal.R;
 
 public class MainActivity extends AppCompatActivity
@@ -62,6 +64,14 @@ public class MainActivity extends AppCompatActivity
     public LinearLayoutManager linearLayoutManager;
     public Adapter_Main adapter_main;
     public RecyclerView contentsContainer;
+
+    public ViewPager viewPager;
+    public OnItemClickListener onItemClickListener= new OnItemClickListener() {
+        @Override
+        public void onItemClick() {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +182,8 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.popBackStack();
             }
 
-            mainScrollView.setVisibility(View.VISIBLE);
+            contentsContainer.setVisibility(View.VISIBLE);
+//            mainScrollView.setVisibility(View.VISIBLE);
             fragmentContainer.setVisibility(View.GONE);
 
         } else if (id == R.id.nav_favorite) {
@@ -180,7 +191,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new FavoriteFragment()).commit();
 
-            mainScrollView.setVisibility(View.INVISIBLE);
+            contentsContainer.setVisibility(View.INVISIBLE);
+//            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_upload) {
@@ -192,7 +204,8 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
 
-            mainScrollView.setVisibility(View.INVISIBLE);
+            contentsContainer.setVisibility(View.INVISIBLE);
+//            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
         }else {
             drawer.closeDrawer(GravityCompat.START);
