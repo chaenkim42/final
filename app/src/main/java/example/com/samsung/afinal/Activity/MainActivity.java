@@ -3,6 +3,8 @@ package example.com.samsung.afinal.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,7 +25,11 @@ import android.widget.TextView;
 import org.json.JSONObject;
 
 //import example.com.samsung.afinal.Adapter.JavaScriptInterface;
+import java.util.ArrayList;
+
+import example.com.samsung.afinal.Adapter.Adapter_Main;
 import example.com.samsung.afinal.Classes.MongoLabClient;
+import example.com.samsung.afinal.Classes.data_Main;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
@@ -49,6 +56,12 @@ public class MainActivity extends AppCompatActivity
     private FragmentTransaction fragmentTransaction;
 
     private TextView mypageTV;
+
+    //main RecyclerView
+    public ArrayList<data_Main> items;
+    public LinearLayoutManager linearLayoutManager;
+    public Adapter_Main adapter_main;
+    public RecyclerView contentsContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +92,27 @@ public class MainActivity extends AppCompatActivity
 //        a.setIcon(drawable);
 
 //        mainFrameLayout = findViewById(R.id.main_framelayout);
-        mainScrollView = findViewById(R.id.main_scrollview);
-        mainScrollView.setVisibility(View.VISIBLE);
+//        mainScrollView = findViewById(R.id.main_scrollview);
+//        mainScrollView.setVisibility(View.INVISIBLE);
 
         fragmentManager = getFragmentManager();
 
         fragmentContainer = findViewById(R.id.fragment_container);
 
+
+        //main content 부분
+        items = new ArrayList<>();
+        items.add(new data_Main("첫 떡볶이", R.drawable.food_cream_pasta,"여러분도 할 수 있어요"));
+        items.add(new data_Main("둘 피자", R.drawable.food_pizza,"여러분 글쎄 할 수 있어요"));
+        items.add(new data_Main("셋 셀러드", R.drawable.food_salad,"여러분?? 할 수 있어요"));
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
+        contentsContainer = findViewById(R.id.contents_container);
+        contentsContainer.setLayoutManager(linearLayoutManager);
+
+        adapter_main = new Adapter_Main();
+        adapter_main.setData(items);
+        contentsContainer.setAdapter(adapter_main);
 
     }
 
