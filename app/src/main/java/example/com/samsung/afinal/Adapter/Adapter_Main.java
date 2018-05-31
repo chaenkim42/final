@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import example.com.samsung.afinal.Classes.data_Main;
+import example.com.samsung.afinal.Interface.OnItemClickListener;
 import example.com.samsung.afinal.R;
 
 public class Adapter_Main extends RecyclerView.Adapter<ViewHolder_Main>{
 
     ArrayList<data_Main> items;
+    OnItemClickListener listener;
 
     public void setData(ArrayList<data_Main> items){this.items = items;}
+    public void setListener(OnItemClickListener listener){this.listener = listener;}
 
     @Override
     public ViewHolder_Main onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,6 +31,12 @@ public class Adapter_Main extends RecyclerView.Adapter<ViewHolder_Main>{
     public void onBindViewHolder(ViewHolder_Main holder, int position) {
 
         holder.bindData(items.get(position));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick();
+            }
+        });
     }
 
     @Override
