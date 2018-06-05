@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="example.com.samsung.afinal.Activity.SignupActivity">
+    tools:context="example.com.samsung.afinal.Activity.SignupActivity"
+    android:background="#edf2f7">
 
     <TextView
         android:id="@+id/signup"
@@ -49,9 +50,10 @@
 
     <Button
         android:id="@+id/signup_idDupCheckBtn"
-        android:layout_width="68dp"
-        android:layout_height="wrap_content"
+        android:layout_width="53dp"
+        android:layout_height="33dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/rounded"
         android:text="중복확인"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/signup_id"
@@ -196,7 +198,8 @@
             android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text=" 취소 " />
+            android:text=" 취소 "
+            android:background="@drawable/rounded"/>
 
         <Button
             android:id="@+id/signup_confirmBtn"
@@ -204,7 +207,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="2"
-            android:text=" 회원가입 " />
+            android:text=" 회원가입 "
+            android:background="@drawable/rounded"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

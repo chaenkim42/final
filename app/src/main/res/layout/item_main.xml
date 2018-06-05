@@ -6,33 +6,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/WHITE">
+    android:background="#ffffff"
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/foodImage"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="20dp"
-        />
+        android:layout_height="259dp"
+        android:layout_gravity="center"
+         />
 
     <TextView
         android:id="@+id/foodTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
+        android:fontFamily="@font/hana_11yrs_otf"
         android:textSize="25dp"
-        android:textStyle="bold"
-        android:fontFamily="monospace" />
+        />
 
     <TextView
         android:id="@+id/foodContext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp" />
+        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/hana_11yrs_otf"/>
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package example.com.samsung.afinal.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -129,6 +130,9 @@ public class MainActivity extends AppCompatActivity
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         contentsContainer = findViewById(R.id.contents_container);
+        contentsContainer.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
+        contentsContainer.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.HORIZONTAL));
+        contentsContainer.setHasFixedSize(true);
         contentsContainer.setLayoutManager(linearLayoutManager);
         adapter_main = new Adapter_Main();
         adapter_main.setListener(onItemClickListener);

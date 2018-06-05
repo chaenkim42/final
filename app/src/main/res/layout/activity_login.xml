@@ -4,20 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="example.com.samsung.afinal.Activity.LoginActivity">
+    tools:context="example.com.samsung.afinal.Activity.LoginActivity"
+    android:background="#5b89d3">
 
 
-    <TextView
-        android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="로그인"
-        android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        app:layout_constraintBottom_toTopOf="@+id/login_id"
-        app:layout_constraintEnd_toEndOf="@+id/login_id"
-        app:layout_constraintStart_toStartOf="@+id/login_idLabel" />
+    <!--<TextView-->
+        <!--android:id="@+id/login"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="32dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:text="로그인"-->
+        <!--android:textAppearance="@android:style/TextAppearance.Material.Headline"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/login_id"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/login_id"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/login_idLabel"-->
+        <!--android:fontFamily="@font/hana_11yrs_otf"/>-->
 
     <TextView
         android:id="@+id/login_idLabel"
@@ -27,19 +29,21 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/hana_11yrs_otf"
         android:text="Id"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.24"
+        app:layout_constraintHorizontal_bias="0.183"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32999998" />
+        app:layout_constraintVertical_bias="0.333" />
 
     <EditText
         android:id="@+id/login_id"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
         android:layout_marginStart="16dp"
+        android:background="@drawable/rounded"
         android:ems="10"
         android:gravity="center"
         android:inputType="text"
@@ -55,12 +59,14 @@
         android:layout_marginTop="32dp"
         android:text="Pw"
         app:layout_constraintEnd_toEndOf="@+id/login_idLabel"
-        app:layout_constraintTop_toBottomOf="@+id/login_idLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/login_idLabel"
+        android:fontFamily="@font/hana_11yrs_otf"/>
 
     <EditText
         android:id="@+id/login_pw"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:background="@drawable/rounded"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPassword"
@@ -71,13 +77,16 @@
 
     <Button
         android:id="@+id/login_confirmBtn"
-        android:layout_width="105dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="88dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="56dp"
         android:layout_weight="2"
+        android:background="@drawable/rounded"
+        android:fontFamily="@font/hana_11yrs_otf"
         android:onClick="loginBtnOnClick"
         android:text="로그인"
         app:layout_constraintEnd_toEndOf="@+id/login_pw"
+        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="@+id/login_pwLabel"
         app:layout_constraintTop_toBottomOf="@+id/login_pw" />
 
@@ -90,11 +99,14 @@
         android:layout_marginStart="8dp"
         android:onClick="signupBtnOnClick"
         android:text="회원가입 하러가기"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_confirmBtn"
-        app:layout_constraintVertical_bias="0.26999998" />
+        app:layout_constraintVertical_bias="0.291"
+        android:fontFamily="@font/hana_11yrs_otf"/>
 
 
 
