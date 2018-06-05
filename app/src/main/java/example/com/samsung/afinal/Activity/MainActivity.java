@@ -35,6 +35,7 @@ import example.com.samsung.afinal.Classes.data_Main;
 import example.com.samsung.afinal.Fragment.ContentsFragment;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
+import example.com.samsung.afinal.Fragment.ViewpagerFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.Interface.OnItemClickListener;
 import example.com.samsung.afinal.R;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity
 
 
 //    private FrameLayout mainFrameLayout;
-    private ScrollView mainScrollView;
+//    private ScrollView mainScrollView;
     public static RelativeLayout fragmentContainer;
 
     private FragmentManager fragmentManager;
@@ -68,10 +69,9 @@ public class MainActivity extends AppCompatActivity
     public RecyclerView contentsContainer;
 
     //contents ViewPager
-    int position;
-    public int images[][];
-    public ViewPager viewPager;
-    ContentsViewPagerAdapter contentsViewPagerAdapter;
+
+    ViewpagerFragment viewpagerFragment;
+    OnItemClickListener onItemClickListener;
 
 
     @Override
@@ -112,24 +112,17 @@ public class MainActivity extends AppCompatActivity
 
         //==================================================================================================
         //ViewPager 즉 하나의 컨텐츠를 클릭했을때를 의미합니다. 그럴때의 작업을 구현한 부분입니다.
-        images = new int[][]{{R.drawable.food_cream_pasta, R.drawable.food_kimchi, R.drawable.food_salad},
-                                {R.drawable.food_tomato_pasta, R.drawable.food_tomato_pasta, R.drawable.food_potato},
-                                {R.drawable.app_icon, R.drawable.food_potato, R.drawable.food_salad}};
 
-        contentsViewPagerAdapter = new ContentsViewPagerAdapter(fragmentManager);
-        viewPager = findViewById(R.id.contentsPages);
-        OnItemClickListener onItemClickListener = new OnItemClickListener() {
+
+        onItemClickListener = new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //뷰페이저 실행 부분
+                //뷰페이저 실행 부분[fragment에 viewpager view를 담았습니다.]
+                viewpagerFragment = new ViewpagerFragment();
+                viewpagerFragment.getPosition(position);
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, viewpagerFragment).commit();
 
-
-                contentsViewPagerAdapter.setData(images[position]);
-                viewPager.setAdapter(contentsViewPagerAdapter);
-                
-                contentsContainer.setVisibility(View.INVISIBLE);
-                viewPager.setVisibility(View.VISIBLE);
-                fragmentContainer.setVisibility(View.INVISIBLE);
             }
         };
         //==================================================================================================
@@ -158,12 +151,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(viewPager.getVisibility() == View.VISIBLE)
-        {
-            viewPager.setVisibility(View.INVISIBLE);
-            contentsContainer.setVisibility(View.VISIBLE);
-        }
-        else if (drawer.isDrawerOpen(GravityCompat.START)) {
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(getFragmentManager().getBackStackEntryCount() > 1){
             getFragmentManager().popBackStack();
@@ -218,7 +207,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             contentsContainer.setVisibility(View.VISIBLE);
-            viewPager.setVisibility(View.INVISIBLE);
+
 //            mainScrollView.setVisibility(View.VISIBLE);
             fragmentContainer.setVisibility(View.GONE);
 
@@ -228,7 +217,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new FavoriteFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
-            viewPager.setVisibility(View.INVISIBLE);
+
 //            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
 
@@ -242,7 +231,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
-            viewPager.setVisibility(View.INVISIBLE);
+
 //            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
         }else {
