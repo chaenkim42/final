@@ -3,10 +3,8 @@ package example.com.samsung.afinal.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,11 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -29,10 +24,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import example.com.samsung.afinal.Adapter.Adapter_Main;
-import example.com.samsung.afinal.Adapter.ContentsViewPagerAdapter;
 import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.data_Main;
-import example.com.samsung.afinal.Fragment.ContentsFragment;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
 import example.com.samsung.afinal.Fragment.ViewpagerFragment;
@@ -121,7 +114,8 @@ public class MainActivity extends AppCompatActivity
                 viewpagerFragment = new ViewpagerFragment();
                 viewpagerFragment.getPosition(position);
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, viewpagerFragment).commit();
+                fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_alpha,R.animator.exit_anim_alpha).
+                        replace(R.id.fragment_container, viewpagerFragment).commit();
 
             }
         };
@@ -208,13 +202,13 @@ public class MainActivity extends AppCompatActivity
 
             contentsContainer.setVisibility(View.VISIBLE);
 
-//            mainScrollView.setVisibility(View.VISIBLE);
-            fragmentContainer.setVisibility(View.GONE);
+            fragmentContainer.setVisibility(View.INVISIBLE);
+
 
         } else if (id == R.id.nav_favorite) {
             // begin new transaction
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new FavoriteFragment()).commit();
+            fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_scale,R.animator.exit_anim_scale).replace(R.id.fragment_container, new FavoriteFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
 
@@ -228,7 +222,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_mypage) {
             // begin new transaction
             fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.addToBackStack(null).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
+            fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_scale,R.animator.exit_anim_scale).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
 
