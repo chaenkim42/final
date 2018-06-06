@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_voice">
+        <item>쿡쿡</item>
+        <item>요리보세요~</item>
+        <item>오늘은 무엇을?</item>
+        <item>하하</item>
+    </string-array>
+</resources>

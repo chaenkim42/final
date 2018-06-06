@@ -1,21 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RingtonePreference
-        android:key="ringtone"
-        android:showDefault="true"
-        android:showSilent="true"
-        android:summary="벨소리를 선택하시오"
-        android:title="벨소리 선택" />
-    <CheckBoxPreference
-        android:key="check"
-        android:title="진동여부"
-        android:defaultValue="false"
-        android:summary="체크하면 진동설정"/>
-    <EditTextPreference
-        android:defaultValue="20"
-        android:key="edit"
-        android:summary="음량을 선택하시오"
-        android:title="음량 선택" />
+
+    <PreferenceCategory
+        android:textColor="@color/MAINBLUE"
+        android:title="정보">
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:summary="3.6.8(최신버전)"
+            android:title="버전정보" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:textColor="@color/MAINBLUE"
+        android:title="서비스 / 문의">
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:title="공지사항" />
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:title="이용약관" />
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:summary="반갑습니다. (주)Cooking App은 통신비밀보호법 및 정보보호등에 관한 법률 등 정보통신서비스 제공자가 준수하여야할 관련 법령상의 개인정보보호규정을 준수합니다."
+            android:title="개인정보 취급방침" />
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:summary="Ajou Media 031)219-1234"
+            android:title="콘텐츠 제보" />
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:summary="Ajou Media Song Tai Yeong and Kim Chae Yeon"
+            android:title="문의 하기" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="콘텐츠 알림">
+        <SwitchPreference
+            android:key="message"
+            android:title="콘텐츠 알림"
+            android:textColor="@color/MAINBLUE"/>
+
+        <PreferenceScreen
+            android:key="keyword_screen"
+            android:title="키워드 알림"
+            android:summary="사용안함">
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="keyword"
+                android:summary="등록된 키워드가 포함된 메시지는 채팅방 알림이 꺼져 있어도 푸시 알림을 받게 되어 키워드는 강조되어 보여 집니다."
+                android:title="키워드 알림"/>
+            <ListPreference
+                android:entries="@array/array_voice"
+                android:entryValues="@array/array_voice"
+                android:key="keyword_sound_list"
+                android:title="키워드 전용 알림음"
+                android:dependency="keyword"
+                />
+
+        </PreferenceScreen>
+
+        <SwitchPreference
+            android:key="sound"
+            android:title="소리"/>
+        <ListPreference
+            android:entries="@array/array_voice"
+            android:entryValues="@array/array_voice"
+            android:key="sound_list"
+            android:title="알림음"
+            />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

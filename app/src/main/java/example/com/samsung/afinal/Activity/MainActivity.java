@@ -29,6 +29,7 @@ import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.data_Main;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
+import example.com.samsung.afinal.Fragment.SettingFragment;
 import example.com.samsung.afinal.Fragment.ViewpagerFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.Interface.OnItemClickListener;
@@ -214,13 +215,16 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_scale,R.animator.exit_anim_scale).replace(R.id.fragment_container, new FavoriteFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
-
-//            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_upload) {
 
         } else if (id == R.id.nav_setting) {
+            fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_scale,R.animator.exit_anim_scale).replace(R.id.fragment_container, new SettingFragment()).commit();
+
+            contentsContainer.setVisibility(View.INVISIBLE);
+            fragmentContainer.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_mypage) {
             // begin new transaction
@@ -228,8 +232,6 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_scale,R.animator.exit_anim_scale).replace(R.id.fragment_container, new PersonalInfoFragment()).commit();
 
             contentsContainer.setVisibility(View.INVISIBLE);
-
-//            mainScrollView.setVisibility(View.INVISIBLE);
             fragmentContainer.setVisibility(View.VISIBLE);
         }else {
             drawer.closeDrawer(GravityCompat.START);
