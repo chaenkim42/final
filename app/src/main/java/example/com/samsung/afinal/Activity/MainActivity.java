@@ -124,15 +124,14 @@ public class MainActivity extends AppCompatActivity
 
         //main content 부분
         items = new ArrayList<>();
-        items.add(new data_Main("첫 떡볶이", R.drawable.food_cream_pasta,"여러분도 할 수 있어요"));
+        items.add(new data_Main("첫 떡볶이", R.drawable.image_soymeat,"여러분도 할 수 있어요"));
         items.add(new data_Main("둘 피자", R.drawable.food_pizza,"여러분 글쎄 할 수 있어요"));
         items.add(new data_Main("셋 셀러드", R.drawable.food_salad,"여러분?? 할 수 있어요"));
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         contentsContainer = findViewById(R.id.contents_container);
         contentsContainer.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
-        contentsContainer.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.HORIZONTAL));
-        contentsContainer.setHasFixedSize(true);
+//        contentsContainer.setHasFixedSize(true);
         contentsContainer.setLayoutManager(linearLayoutManager);
         adapter_main = new Adapter_Main();
         adapter_main.setListener(onItemClickListener);
