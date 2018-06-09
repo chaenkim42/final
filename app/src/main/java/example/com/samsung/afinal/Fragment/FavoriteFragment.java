@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import example.com.samsung.afinal.Adapter.Adapter_Favorite;
 import example.com.samsung.afinal.Classes.MongoLabClient;
 import example.com.samsung.afinal.Classes.data_Favorite;
+import example.com.samsung.afinal.Interface.OnItemClickListener;
 import example.com.samsung.afinal.R;
 
 import static example.com.samsung.afinal.Activity.MainActivity.fragmentContainer;
@@ -36,7 +37,12 @@ public class FavoriteFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private ArrayList<data_Favorite> list = new ArrayList<>();
     private ImageButton imageButton;
+    private OnItemClickListener click_favoriteItem = new OnItemClickListener() {
+        @Override
+        public void onItemClick(int position) {
 
+        }
+    };
 
 
 

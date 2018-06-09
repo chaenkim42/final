@@ -67,6 +67,17 @@ public class MainActivity extends AppCompatActivity
 
     ViewpagerFragment viewpagerFragment;
     OnItemClickListener onItemClickListener;
+    OnItemClickListener onStarClickListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(int position) {
+            if(items.get(position).getIsClicked() == R.drawable.star)
+                items.get(position).setClicked(R.drawable.star_clicked);
+            else
+                items.get(position).setClicked(R.drawable.star);
+            adapter_main.notifyDataSetChanged();
+
+        }
+    };
 
 
     @Override
@@ -125,9 +136,9 @@ public class MainActivity extends AppCompatActivity
 
         //main content 부분
         items = new ArrayList<>();
-        items.add(new data_Main("첫 떡볶이", R.drawable.image_soymeat,"여러분도 할 수 있어요"));
-        items.add(new data_Main("둘 피자", R.drawable.food_pizza,"여러분 글쎄 할 수 있어요"));
-        items.add(new data_Main("셋 셀러드", R.drawable.food_salad,"여러분?? 할 수 있어요"));
+        items.add(new data_Main("첫 떡볶이", R.drawable.image_soymeat,"여러분도 할 수 있어요", R.drawable.star));
+        items.add(new data_Main("둘 피자", R.drawable.food_pizza,"여러분 글쎄 할 수 있어요", R.drawable.star));
+        items.add(new data_Main("셋 셀러드", R.drawable.food_salad,"여러분?? 할 수 있어요", R.drawable.star));
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         contentsContainer = findViewById(R.id.contents_container);
@@ -135,6 +146,7 @@ public class MainActivity extends AppCompatActivity
 //        contentsContainer.setHasFixedSize(true);
         contentsContainer.setLayoutManager(linearLayoutManager);
         adapter_main = new Adapter_Main();
+        adapter_main.setStarListener(onStarClickListener);
         adapter_main.setListener(onItemClickListener);
         adapter_main.setData(items);
         contentsContainer.setAdapter(adapter_main);

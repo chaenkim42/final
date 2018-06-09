@@ -2,6 +2,7 @@ package example.com.samsung.afinal.Adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,17 +20,20 @@ public class ViewHolder_Main extends RecyclerView.ViewHolder{
     private TextView title;
     private ImageView imageURL;
     private TextView context;
+    private ImageView star;
 
     public ViewHolder_Main(View itemView) {
         super(itemView);
         this.title = itemView.findViewById(R.id.foodTitle);
         this.imageURL = itemView.findViewById(R.id.foodImage);
         this.context = itemView.findViewById(R.id.foodContext);
+        this.star = itemView.findViewById(R.id.star);
     }
 
     public void bindData(data_Main data_main){
         this.title.setText(data_main.getTitle());
         this.imageURL.setImageResource(data_main.getImageURL());
         this.context.setText(data_main.getContext());
+        this.star.setImageResource(data_main.getIsClicked());
     }
 }

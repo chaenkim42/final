@@ -16,10 +16,12 @@ public class Adapter_Main extends RecyclerView.Adapter<ViewHolder_Main>{
 
     ArrayList<data_Main> items;
     OnItemClickListener listener;
+    OnItemClickListener starListener;
 
 
     public void setData(ArrayList<data_Main> items){this.items = items;}
     public void setListener(OnItemClickListener listener){this.listener = listener;}
+    public void setStarListener(OnItemClickListener starListener){this.starListener = starListener;}
 
 
     @Override
@@ -35,12 +37,19 @@ public class Adapter_Main extends RecyclerView.Adapter<ViewHolder_Main>{
 
 
         holder.bindData(items.get(position));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.findViewById(R.id.star).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                starListener.onItemClick(position);
+            }
+        });
+        holder.itemView.findViewById(R.id.foodImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listener.onItemClick(position);
             }
         });
+
     }
 
     @Override
