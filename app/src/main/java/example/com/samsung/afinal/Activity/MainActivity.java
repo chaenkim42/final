@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,10 +20,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
+
+import org.bson.BasicBSONObject;
+import org.bson.types.BasicBSONList;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 //import example.com.samsung.afinal.Adapter.JavaScriptInterface;
 import java.util.ArrayList;
+import java.util.Map;
 
 import example.com.samsung.afinal.Adapter.Adapter_Main;
 import example.com.samsung.afinal.Classes.MongoLabClient;
@@ -43,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     // Information to access to mLab
     private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
     private String DATABASE = "dbchtest";
-    private String COLLECTION = "test";
+    private String COLLECTION_RECIPE = "recipes";
     private MongoLabClient mongoLabClient;
     private JSONObject jsonObject,jsonObject2,jsonObject3;
 
@@ -104,13 +114,33 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.list,  null);
-//        ActionBar a = getSupportActionBar();
-//        a.setIcon(drawable);
+        ArrayList<String> recipes = null;
+        try {
 
-//        mainFrameLayout = findViewById(R.id.main_framelayout);
-//        mainScrollView = findViewById(R.id.main_scrollview);
-//        mainScrollView.setVisibility(View.INVISIBLE);
+            recipes = new ArrayList<String>();
+            recipes.add("토마토 스파게티");
+            recipes.add("감자전");
+            recipes.add("떡볶이");
+            BasicDBList allRecipes = new BasicDBList();
+
+            for (int i = 0; i < recipes.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("title", recipes.get(i));
+                mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION_RECIPE);
+                String mongoResultString = mongoLabClient.findOne(jsonObject.toString());
+                BasicDBObject dbObject = new BasicDBObject();
+                dbObject = (BasicDBObject) JSON.parse(mongoResultString);
+                allRecipes.add(dbObject);
+            }
+
+            Log.d("mongo result", allRecipes + "");
+
+
+        } catch (JSONException e) {
+            Log.e("eeeee error", e.toString());
+        } catch (Exception e) {
+            Log.e("eeeee error", e.toString());
+        }
 
         fragmentManager = getFragmentManager();
 
@@ -127,7 +157,7 @@ public class MainActivity extends AppCompatActivity
                 viewpagerFragment = new ViewpagerFragment();
                 viewpagerFragment.getPosition(position);
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_alpha,R.animator.exit_anim_alpha).
+                fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_alpha, R.animator.exit_anim_alpha).
                         replace(R.id.fragment_container, viewpagerFragment).commit();
 
             }
@@ -136,9 +166,13 @@ public class MainActivity extends AppCompatActivity
 
         //main content 부분
         items = new ArrayList<>();
-        items.add(new data_Main("첫 떡볶이", R.drawable.image_soymeat,"여러분도 할 수 있어요", R.drawable.star));
-        items.add(new data_Main("둘 피자", R.drawable.food_pizza,"여러분 글쎄 할 수 있어요", R.drawable.star));
-        items.add(new data_Main("셋 셀러드", R.drawable.food_salad,"여러분?? 할 수 있어요", R.drawable.star));
+        for(int i=0; i<recipes.size(); i++){
+            //TODO: context 부분 db 수정 or 없애기
+            items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
+        }
+        items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
+        items.add(new data_Main("둘 피자", R.drawable.food_pizza, "여러분 글쎄 할 수 있어요", R.drawable.star));
+        items.add(new data_Main("셋 셀러드", R.drawable.food_salad, "여러분?? 할 수 있어요", R.drawable.star));
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         contentsContainer = findViewById(R.id.contents_container);
@@ -151,8 +185,6 @@ public class MainActivity extends AppCompatActivity
         adapter_main.setData(items);
         contentsContainer.setAdapter(adapter_main);
         //==================================================================================================
-
-
 
 
     }

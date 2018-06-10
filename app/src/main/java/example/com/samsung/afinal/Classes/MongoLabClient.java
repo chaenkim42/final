@@ -3,6 +3,9 @@ package example.com.samsung.afinal.Classes;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.mongodb.BasicDBList;
+
+import org.bson.BasicBSONCallback;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
