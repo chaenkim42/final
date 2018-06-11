@@ -2,6 +2,8 @@ package example.com.samsung.afinal.Activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,12 @@ import android.widget.TextView;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 import com.mongodb.util.JSON;
 
 import org.bson.BasicBSONObject;
@@ -31,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 //import example.com.samsung.afinal.Adapter.JavaScriptInterface;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -49,6 +59,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private BackPressCloseHandler backPress;
+
+    public static JSONObject USER_SESSION;
 
     // Information to access to mLab
     private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
@@ -114,9 +126,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Intent intent = getIntent();
+        String loginUserInfo = intent.getStringExtra("loginUserInfo");
+        Log.e("mongo login", loginUserInfo);
+        loginUserInfo = loginUserInfo.replace("\"", "\"");
+        try {
+            USER_SESSION = new JSONObject(loginUserInfo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("mongo json login", USER_SESSION+"");
+
+
         ArrayList<String> recipes = null;
         try {
-
             recipes = new ArrayList<String>();
             recipes.add("토마토 스파게티");
             recipes.add("감자전");
@@ -150,6 +173,7 @@ public class MainActivity extends AppCompatActivity
         //ViewPager 즉 하나의 컨텐츠를 클릭했을때를 의미합니다. 그럴때의 작업을 구현한 부분입니다.
 
 
+
         onItemClickListener = new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -164,13 +188,16 @@ public class MainActivity extends AppCompatActivity
         };
         //==================================================================================================
 
+
+
+
         //main content 부분
         items = new ArrayList<>();
         for(int i=0; i<recipes.size(); i++){
             //TODO: context 부분 db 수정 or 없애기
             items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
         }
-        items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
+//        items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
         items.add(new data_Main("둘 피자", R.drawable.food_pizza, "여러분 글쎄 할 수 있어요", R.drawable.star));
         items.add(new data_Main("셋 셀러드", R.drawable.food_salad, "여러분?? 할 수 있어요", R.drawable.star));
         linearLayoutManager = new LinearLayoutManager(this);

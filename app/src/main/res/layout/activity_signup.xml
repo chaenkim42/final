@@ -25,10 +25,10 @@
 
     <TextView
         android:id="@+id/signup_idLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="44dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Id"
+        android:text="Email"
         app:layout_constraintBottom_toBottomOf="@+id/signup_id"
         app:layout_constraintEnd_toStartOf="@+id/signup_id"
         app:layout_constraintTop_toTopOf="@+id/signup_id" />
@@ -90,7 +90,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="4자이상 입력하세요"
         android:textSize="9dp"
         app:layout_constraintBottom_toBottomOf="@+id/signup_pw"
         app:layout_constraintStart_toEndOf="@+id/signup_pw"
@@ -126,36 +125,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="일치"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/signup_pwRetype"
         app:layout_constraintStart_toEndOf="@+id/signup_pwRetype"
         app:layout_constraintTop_toTopOf="@+id/signup_pwRetype" />
-
-    <TextView
-        android:id="@+id/signup_emailLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Email"
-        app:layout_constraintBottom_toBottomOf="@+id/signup_email"
-        app:layout_constraintEnd_toStartOf="@+id/signup_email"
-        app:layout_constraintTop_toTopOf="@+id/signup_email" />
-
-    <EditText
-        android:id="@+id/signup_email"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:gravity="center"
-        android:inputType="textEmailAddress"
-        android:textAppearance="@android:style/TextAppearance.Material.Small.Inverse"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_pwRetype" />
 
     <CheckBox
         android:id="@+id/signup_checkBox"
@@ -172,12 +145,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="이용 약관을 모두 확인하였으며\n이에 동의합니다"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_email" />
+        app:layout_constraintTop_toBottomOf="@+id/signup_pwRetype" />
 
     <LinearLayout
         android:layout_width="wrap_content"
