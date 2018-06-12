@@ -10,6 +10,15 @@
     <ImageView
         android:id="@+id/contentsImage"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="300dp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:id="@+id/contentsText"
+        android:layout_width="match_parent"
+        android:layout_height="195dp"
+        android:layout_margin="10dp"
+        android:text="TextView"
+        android:textSize="24sp" />
 
 </LinearLayout>

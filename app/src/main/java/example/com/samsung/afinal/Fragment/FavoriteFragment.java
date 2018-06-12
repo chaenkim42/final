@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,84 +31,85 @@ import example.com.samsung.afinal.Classes.data_Favorite;
 import example.com.samsung.afinal.Interface.OnItemClickListener;
 import example.com.samsung.afinal.R;
 
+import static example.com.samsung.afinal.Activity.MainActivity.mongoLabClient;
+import static example.com.samsung.afinal.Activity.MainActivity.API_KEY;
+import static example.com.samsung.afinal.Activity.MainActivity.COLLECTION_FOLDER;
+import static example.com.samsung.afinal.Activity.MainActivity.DATABASE;
+import static example.com.samsung.afinal.Activity.MainActivity.USER_SESSION;
 import static example.com.samsung.afinal.Activity.MainActivity.fragmentContainer;
 
 public class FavoriteFragment extends Fragment {
     private RecyclerView recyclerView;
-    private Adapter_Favorite adpater;
+    private Adapter_Favorite adapter;
     private LinearLayoutManager layoutManager;
     private ArrayList<data_Favorite> list = new ArrayList<>();
     private ImageButton imageButton;
-    private OnItemClickListener click_favoriteItem = new OnItemClickListener() {
-        @Override
-        public void onItemClick(int position) {
 
-        }
-    };
-
-
-
-    // MongoLabClient 사용을 위한 변수들
-    private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
-    private String DATABASE = "dbchtest";
-    private String COLLECTION = "favorites";
-    private MongoLabClient mongoLabClient;
+    private ArrayList<String> allFolders = new ArrayList<String>();
+    private JSONArray allFolderJSON = new JSONArray();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
+        // 폴더명 목록 받기
+        mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION_FOLDER);
+        String[] split = mongoLabClient.find().split("\"name\"");
+        for(int i=0; i<split.length-1; i++){
+            String string = split[i+1].split("\"")[1];
+            allFolders.add(string);
+        }
 
+        // 폴더 json 받기
+        try {
+            for (int i = 0; i < allFolders.size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", allFolders.get(i));
+                mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION_FOLDER);
+                String mongoResultString = mongoLabClient.findOne(jsonObject.toString());
+                JSONObject folderObject = new JSONObject(mongoResultString);
+                allFolderJSON.put(folderObject);
+            }
+        } catch (JSONException e) {
+            Log.e("JSONException", e.toString());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
 
-        //<핵심 원리>
-        //어뎁터 안에다가 이전에 만들어둔 데이터틀 을 담고있는 배열을 넣고
-        //그 어뎁터를 recyclerview에 넣습니다. 이때, recyclerview는 어뎁터를 통해서 가져온
-        //list array를 어떠한 layout형태로 배열할지 layout설정을 해줘야 합니다.
-
-        //즉, 특정 layout을 recyclerview에 넣어준 뒤에 event(버튼 같은)가 발생할 때마다 갱신 시킨 list를
-        //어뎁터에 넣어주고 그 어뎁터를 recyclerview에 넣어줍니다.
-
-        //Step1 : recyclerview의 id를 가져오기
-        //이전에 프레그먼트생성에서는 return inflater.inflate.....이렇게 진행했지만
-        //여기에서는 하나의 view로써 일단 저장해 둡니다.(recyclerview의 id를 가져오기 위해서)
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         imageButton = view.findViewById(R.id.plusButton);
-
-
-//        RelativeLayout fragmentContainer;
-//        fragmentContainer = getView().findViewById(R.id.fragment_container);
         fragmentContainer.setVisibility(View.VISIBLE);
 
-        //Step2 : recyclerview에 layout정하기
-        //이제 recyclerview에서 데이터들을 어떻게 배치할지 layout을 정하는 부분으로
-        //LinearLayout을 동적으로 코드상으로 불러온뒤에
         recyclerView = view.findViewById(R.id.favoriteList);
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        //recylerview에 만든 LinearLayout을 넣습니다.
+
         recyclerView.setLayoutManager(layoutManager);
-        adpater = new Adapter_Favorite();
+        adapter = new Adapter_Favorite();
 
-        if(list.isEmpty()) {
-            try {
-//            mongoLabClient = new MongoLabClient(API_KEY);
-//            mongoLabClient = new MongoLabClient(API_KEY,DATABASE,COLLECTION);
-//            mongoLabClient.find();
-                JSONArray objects = new JSONArray("[{\"name\":\"폴더1\",\"index\":\"0\"},{\"name\":\"좋아하는 메뉴\",\"index\":\"1\"}]");
-                for (int i = 0; i < objects.length(); i++) {
-                    JSONObject o = objects.getJSONObject(i);
-                    String name = o.getString("name");
-
-                    //Step3
-                    //list array를 담은 adapter를 recyclerview에 넣기
-                    list.add(new data_Favorite(R.mipmap.folder, name));
+        // recyclerView 에 붙일 list item 받기 (현재 사용자에게 속한 폴더만 받음)
+        try {
+            String userOid = USER_SESSION.getString("_id");
+            JSONArray listObjects = new JSONArray();
+            for(int i=0; i<allFolderJSON.length(); i++){
+                if(allFolderJSON.get(i).toString().contains(userOid)){
+                    listObjects.put(allFolderJSON.get(i));
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+            for (int j = 0; j < listObjects.length(); j++) {
+                JSONObject o = listObjects.getJSONObject(j);
+                String name = o.getString("name");
+                data_Favorite newData = new data_Favorite(R.mipmap.folder, name);
+                list.add(newData);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        adpater.setData(list);
-        recyclerView.setAdapter(adpater);
+
+        adapter.setData(list);
+        recyclerView.setAdapter(adapter);
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,10 +132,25 @@ public class FavoriteFragment extends Fragment {
                         // Text 값 받아서 로그 남기기
                         String inputValue = et.getText().toString();
                         if(!inputValue.isEmpty()) {
-                            data_Favorite newData = new data_Favorite(R.mipmap.folder, inputValue);
-                            list.add(newData);
-                            adpater.setData(list);
-                            recyclerView.setAdapter(adpater);
+                            JSONObject newFolderObject = new JSONObject();
+                            try {
+//                                Log.e("folder - check", USER_SESSION.getString("_id").substring(9,33));
+                                newFolderObject.put("name", inputValue);
+                                newFolderObject.put("userBelong", USER_SESSION);
+                                newFolderObject.put("recipes","");
+                                allFolders.add(inputValue);
+                                allFolderJSON.put(newFolderObject);
+
+                                mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION_FOLDER);
+                                mongoLabClient.insert(newFolderObject.toString());
+                                data_Favorite newData = new data_Favorite(R.mipmap.folder, inputValue);
+                                list.add(newData);
+                                adapter.setData(list);
+                                recyclerView.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(getContext(), "폴더 생성 실패", Toast.LENGTH_SHORT).show();
+                            }
                             // Dialog 닫기
                             dialog.dismiss();
                         }else{
@@ -157,15 +175,7 @@ public class FavoriteFragment extends Fragment {
             }
         });
         return view;
-
     }
-
-    public void updateDB() {
-        mongoLabClient = new MongoLabClient(API_KEY);
-        
-    }
-
-
 }
 
 

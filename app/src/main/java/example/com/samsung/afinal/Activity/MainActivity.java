@@ -2,9 +2,11 @@ package example.com.samsung.afinal.Activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +52,7 @@ import example.com.samsung.afinal.Classes.data_Main;
 import example.com.samsung.afinal.Fragment.FavoriteFragment;
 import example.com.samsung.afinal.Fragment.PersonalInfoFragment;
 import example.com.samsung.afinal.Fragment.SettingFragment;
+import example.com.samsung.afinal.Fragment.UploadFragment;
 import example.com.samsung.afinal.Fragment.ViewpagerFragment;
 import example.com.samsung.afinal.Handler.BackPressCloseHandler;
 import example.com.samsung.afinal.Interface.OnItemClickListener;
@@ -61,13 +64,15 @@ public class MainActivity extends AppCompatActivity
     private BackPressCloseHandler backPress;
 
     public static JSONObject USER_SESSION;
+    public static ArrayList<String> recipes;
+    public static JSONArray allRecipes;
 
     // Information to access to mLab
-    private String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
-    private String DATABASE = "dbchtest";
-    private String COLLECTION_RECIPE = "recipes";
-    private MongoLabClient mongoLabClient;
-    private JSONObject jsonObject,jsonObject2,jsonObject3;
+    public static final String API_KEY = "XhgaoR68m-lW9uUX1WGMO9tOmd0TPvlQ";
+    public static final String DATABASE = "dbchtest";
+    public static final String COLLECTION_RECIPE = "recipes";
+    public static final String COLLECTION_FOLDER = "folders";
+    public static MongoLabClient mongoLabClient;
 
 
 //    private FrameLayout mainFrameLayout;
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity
     private FragmentTransaction fragmentTransaction;
 
     private TextView mypageTV;
+
 
     //main RecyclerView
     public ArrayList<data_Main> items;
@@ -128,41 +134,51 @@ public class MainActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         String loginUserInfo = intent.getStringExtra("loginUserInfo");
-        Log.e("mongo login", loginUserInfo);
+//        Log.e("mongo login", loginUserInfo);
         loginUserInfo = loginUserInfo.replace("\"", "\"");
         try {
             USER_SESSION = new JSONObject(loginUserInfo);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("mongo json login", USER_SESSION+"");
+//        Log.e("mongo json login", USER_SESSION+"");
 
 
-        ArrayList<String> recipes = null;
         try {
-            recipes = new ArrayList<String>();
-            recipes.add("토마토 스파게티");
-            recipes.add("감자전");
-            recipes.add("떡볶이");
-            BasicDBList allRecipes = new BasicDBList();
+            final String user = USER_SESSION.getString("email").split("@")[0];
+            View headerView = navigationView.getHeaderView(0);
+            TextView navUsername = (TextView) headerView.findViewById(R.id.nav_header_userid);
+            navUsername.setText(user);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+
+        recipes = new ArrayList<String>();
+        mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION_RECIPE);
+        String[] split = mongoLabClient.find().split("\"title\"");
+        for(int i=0; i<split.length-1; i++){
+            String string = split[i+1].split("\"")[1];
+            recipes.add(string);
+        }
+//        Log.e("recipes",recipes.get(0)+","+recipes.get(2));
+
+
+        try {
+            allRecipes = new JSONArray();
             for (int i = 0; i < recipes.size(); i++) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("title", recipes.get(i));
                 mongoLabClient = new MongoLabClient(API_KEY, DATABASE, COLLECTION_RECIPE);
                 String mongoResultString = mongoLabClient.findOne(jsonObject.toString());
-                BasicDBObject dbObject = new BasicDBObject();
-                dbObject = (BasicDBObject) JSON.parse(mongoResultString);
-                allRecipes.add(dbObject);
+                JSONObject recipeObject = new JSONObject(mongoResultString);
+                allRecipes.put(recipeObject);
             }
-
-            Log.d("mongo result", allRecipes + "");
-
-
+//            Log.e("where is it?", new JSONObject(allRecipes.get(0).toString()).getString("title")+ "");
         } catch (JSONException e) {
-            Log.e("eeeee error", e.toString());
+            Log.e("JSONException", e.toString());
         } catch (Exception e) {
-            Log.e("eeeee error", e.toString());
+            Log.e("Exception", e.toString());
         }
 
         fragmentManager = getFragmentManager();
@@ -179,7 +195,7 @@ public class MainActivity extends AppCompatActivity
             public void onItemClick(int position) {
                 //뷰페이저 실행 부분[fragment에 viewpager view를 담았습니다.]
                 viewpagerFragment = new ViewpagerFragment();
-                viewpagerFragment.getPosition(position);
+                viewpagerFragment.setPosition(position);
                 fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_alpha, R.animator.exit_anim_alpha).
                         replace(R.id.fragment_container, viewpagerFragment).commit();
@@ -195,11 +211,16 @@ public class MainActivity extends AppCompatActivity
         items = new ArrayList<>();
         for(int i=0; i<recipes.size(); i++){
             //TODO: context 부분 db 수정 or 없애기
-            items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
+            if(i==0) {
+                items.add(new data_Main(recipes.get(i), R.drawable.food_tomato_pasta, "", R.drawable.star));
+            }else if(i==1){
+                items.add(new data_Main(recipes.get(i), R.drawable.food_potato, "", R.drawable.star));
+            }else if(i==2){
+                items.add(new data_Main(recipes.get(i), R.drawable.food_kimchi, "", R.drawable.star));
+            }else{
+                items.add(new data_Main(recipes.get(i), R.drawable.food_salad, "", R.drawable.star));
+            }
         }
-//        items.add(new data_Main(recipes.get(i), R.drawable.image_soymeat, "여러분도 할 수 있어요", R.drawable.star));
-        items.add(new data_Main("둘 피자", R.drawable.food_pizza, "여러분 글쎄 할 수 있어요", R.drawable.star));
-        items.add(new data_Main("셋 셀러드", R.drawable.food_salad, "여러분?? 할 수 있어요", R.drawable.star));
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         contentsContainer = findViewById(R.id.contents_container);
@@ -259,12 +280,10 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // begin new transaction
-//        fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.addToBackStack(null).add(R.id.main_framelayout, favoriteFragment).commit();
-//        fragmentTransaction.addToBackStack(null).add(R.id.main_framelayout, favoriteFragment).commit();
+
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -289,6 +308,11 @@ public class MainActivity extends AppCompatActivity
             fragmentContainer.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_upload) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.addToBackStack(null).setCustomAnimations(R.animator.enter_anim_scale,R.animator.exit_anim_scale).replace(R.id.fragment_container, new UploadFragment()).commit();
+
+            contentsContainer.setVisibility(View.INVISIBLE);
+            fragmentContainer.setVisibility(View.VISIBLE);
 
         } else if (id == R.id.nav_setting) {
             fragmentTransaction = getFragmentManager().beginTransaction();

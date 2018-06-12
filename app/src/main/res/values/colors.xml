@@ -7,4 +7,6 @@
     <color name="BLACK">#000000</color>
     <color name="GREEN">#6ef442</color>
     <color name="MAINBLUE">#5b89d3</color>
+    <color name="SUBBLUE">#c9ddff</color>
+    <color name="THEMAYELLOW">#efefb6</color>
 </resources>
